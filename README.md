@@ -1,1 +1,1 @@
-# symmetry_project
+# object_symmetry_project
