@@ -1,0 +1,61 @@
+<head>
+    <script type="text/javascript" src="lib/vendors/jspsych-6.0.0/jspsych.js"></script>
+    <link rel="stylesheet" type="text/css" href="lib/vendors/jspsych-6.0.0/css/jspsych.css"/>
+    <script type="text/javascript" src="lib/vendors/jquery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="lib/jspsych-pavlovia-3.2.5.js"></script>
+    <script src="jspsych-survey-html-form.js"></script>
+    <script src="jspsych-call-function.js"></script>
+</head>
+<body>
+    <script>
+    timeline = [];
+    var pavlovia_init = {
+    type: "pavlovia",
+    command: "init"
+    };
+    timeline.push(pavlovia_init);
+
+    var password_func = function passWord() {
+        var testV = 1;
+        var pass1 = prompt('Please Enter Your Password',' ');
+        while (testV < 100) {
+            if (!pass1)
+            history.go(-1);
+            if (pass1.toLowerCase() == "triplets") {
+                alert('You Got it Right!');
+                window.open('trial_3D_p1.html');
+                break;
+            }
+            testV+=1;
+            var pass1 =
+            prompt('Access Denied - Password Incorrect, Please Try Again.','Password');
+            }
+            if (pass1.toLowerCase()!="password" & testV ==100) //test can be changed to lock people out after n number of attempts
+            history.go(-1);
+            return " ";
+            }
+            var password_trial1 = {
+                type: 'survey-html-form',
+                preamble: 'Welcome to the experiment. Please click on the button below to enter.',
+                html: '<div style:"visibility: hidden"</div>'
+                }
+                timeline.push(password_trial1)
+                var password_trial = {
+                    type: 'call-function',
+                    func: password_func,
+                    async: true
+                    }
+                    timeline.push(password_trial)
+
+    var pavlovia_finish = {
+    type: "pavlovia",
+    command: "finish"
+    };
+
+    timeline.push(pavlovia_finish);
+    jsPsych.init({
+        timeline: timeline,
+        on_finish: jsPsych.data.get()
+    })
+    </script>
+</body>
